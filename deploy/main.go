@@ -1,13 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"net/http"
-
-	"database/sql"
+	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // type User struct {
@@ -63,9 +64,9 @@ type User struct {
 	Name        string
 	Surname     string
 	DateOfBirth string
-	PhoneNumber int
+	PhoneNumber string
 	Email       string
-	Passport    int
+	Passport    string
 	Login       string
 	Password    string
 }
@@ -77,8 +78,30 @@ func home_page(w http.ResponseWriter, r *http.Request) {
 
 func register_page(w http.ResponseWriter, r *http.Request) {
 
-	tmpl, _ := template.ParseFiles("register.html")
-	tmpl.Execute(w, nil)
+	if r.Method == http.MethodPost {
+		user := User{
+			Name:        r.FormValue("name"),
+			Surname:     r.FormValue("surname"),
+			DateOfBirth: r.FormValue("dateOfBirth"),
+			PhoneNumber: r.FormValue("phoneNumber"),
+			Email:       r.FormValue("email"),
+			Passport:    r.FormValue("passport"),
+			Login:       r.FormValue("login"),
+		}
+		err := user.handlerDB(w)
+		if err != nil {
+			http.Error(w, "Ошибка регистрации", http.StatusInternalServerError)
+			return
+		}
+
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+
+	} else {
+		tmpl, _ := template.ParseFiles("register.html")
+		tmpl.Execute(w, nil)
+
+	}
+
 }
 
 func login_page(w http.ResponseWriter, r *http.Request) {
@@ -95,8 +118,7 @@ func handlerRequest() {
 	http.ListenAndServe(":1688", nil)
 }
 
-func main() {
-
+func (user *User) handlerDB(w http.ResponseWriter) error {
 	driver := "mysql"
 	dsn := "root:qwerty@tcp(127.0.0.1:3306)/vkakids"
 
@@ -112,11 +134,43 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	insert.Exec("John", "Doe", "1990-01-01", 1234567890, "john@example.com", 1234123456, "johndoe", "qwerty123")
+	phoneNumberInt, err := strconv.Atoi(user.PhoneNumber)
+	if err != nil {
+		panic(err)
+	}
+	passpordInt, err := strconv.Atoi(user.Passport)
+	if err != nil {
+		panic(err)
+	}
+	hashedPassword, err := hashPassword(user.Passport)
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = insert.Exec(user.Name, user.Surname, user.DateOfBirth, phoneNumberInt, user.Email, passpordInt, user.Login, hashedPassword)
+
+	if err != nil {
+		http.Error(w, "Error inserting data: "+err.Error(), http.StatusInternalServerError)
+	}
 
 	defer insert.Close()
-
 	fmt.Println("Connecting to the EEEENDDDD Table...")
+
+}
+
+func hashPassword(password string) (string, error) {
+
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+
+}
+func checkPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
+func main() {
+
 	handlerRequest()
 
 }
