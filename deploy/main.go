@@ -7,5 +7,8 @@ import (
 )
 
 func main() {
-	handlers.HandlerRequest()
+
+	router := handlers.SetupRouter()
+	router.LoadHTMLGlob("templates/*")
+	router.Run(":1688")
 }
