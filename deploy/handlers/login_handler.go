@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"example/v3/auth"
+	"example/v3/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -27,8 +28,19 @@ func LoginHandler(ctx *gin.Context) {
 		return
 	}
 
+	token, err := utils.GenerateToken(login)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Failed to generate token",
+		})
+		return
+	}
+
+	ctx.SetCookie("Authorization", token, 3600, "/", "", true, true)
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"message":        "Logged in successfully",
+		"token":          token,
 		"name":           user.Name,
 		"surname":        user.Surname,
 		"email":          user.Email,

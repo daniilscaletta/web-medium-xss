@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"example/v3/middleware"
+
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -23,6 +25,10 @@ func SetupRouter() *gin.Engine {
 	router.POST("/login", LoginHandler)
 	router.GET("/register", RegisterPage)
 	router.POST("/register", RegisterHandler)
+
+	protected := router.Group("/protected")
+	protected.Use(middleware.AuthMiddleware())
+	protected.GET("/profile", ProfileHandler)
 
 	return router
 }
