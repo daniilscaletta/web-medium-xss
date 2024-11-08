@@ -7,12 +7,16 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// func HomeHandler(w http.ResponseWriter, r *http.Request) {
-// 	tmpl, _ := template.ParseFiles("templates/home.html")
-// 	tmpl.Execute(w, nil)
+func HomePage(ctx *gin.Context) {
 
-// }
-
-func HomeHandler(ctx *gin.Context) {
-	ctx.HTML(http.StatusOK, "home.html", nil)
+	isAuthenticated := ctx.GetBool("isAuthenticated")
+	if isAuthenticated {
+		ctx.HTML(http.StatusOK, "home.html", gin.H{
+			"links": []string{"home", "record", "profile", "logout"},
+		})
+	} else {
+		ctx.HTML(http.StatusOK, "home.html", gin.H{
+			"links": []string{"home", "login", "register"},
+		})
+	}
 }

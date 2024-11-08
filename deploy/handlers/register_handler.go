@@ -38,28 +38,3 @@ func RegisterHandler(ctx *gin.Context) {
 
 	ctx.Redirect(http.StatusSeeOther, "/login/")
 }
-
-// func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-// 	if r.Method == http.MethodPost {
-// 		user := &models.User{
-// 			Name:           r.FormValue("Name"),
-// 			Surname:        r.FormValue("Surname"),
-// 			DateOfBirthday: r.FormValue("DateOfBirthday"),
-// 			Email:          r.FormValue("Email"),
-// 			PhoneNumber:    r.FormValue("PhoneNumber"),
-// 			Passport:       r.FormValue("Passport"),
-// 			Login:          r.FormValue("Login"),
-// 			Password:       r.FormValue("Passhash"),
-// 		}
-
-// 		err := auth.RegisterUser(user)
-// 		if err != nil {
-// 			http.Error(w, "error for registration: "+err.Error(), http.StatusInternalServerError)
-// 			return
-// 		}
-// 		http.Redirect(w, r, "/login", http.StatusSeeOther)
-// 	} else {
-// 		tmpl, _ := template.ParseFiles("templates/register.html")
-// 		tmpl.Execute(w, nil)
-// 	}
-// }

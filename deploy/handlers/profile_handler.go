@@ -6,12 +6,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ProfileHandler(ctx *gin.Context) {
+func ProfilePage(ctx *gin.Context) {
 
-	claims, _ := ctx.Get("claims")
-	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Profile Page",
-		"claims":  claims,
-	})
+	isAuthenticated := ctx.GetBool("isAuthenticated")
+	if isAuthenticated {
+		claims, _ := ctx.Get("claims")
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "Profile Page",
+			"claims":  claims,
+		})
+	} else {
+		ctx.Redirect(http.StatusTemporaryRedirect, "/login")
+	}
 
 }

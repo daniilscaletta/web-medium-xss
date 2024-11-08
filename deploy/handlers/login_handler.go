@@ -28,7 +28,7 @@ func LoginHandler(ctx *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateToken(login)
+	token, err := utils.GenerateToken(user.Login)
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Failed to generate token",
@@ -37,45 +37,7 @@ func LoginHandler(ctx *gin.Context) {
 	}
 
 	ctx.SetCookie("Authorization", token, 3600, "/", "", true, true)
-
-	ctx.JSON(http.StatusOK, gin.H{
-		"message":        "Logged in successfully",
-		"token":          token,
-		"name":           user.Name,
-		"surname":        user.Surname,
-		"email":          user.Email,
-		"passport":       user.Passport,
-		"dateOfBirthday": user.DateOfBirthday,
-		"phoneNumber":    user.PhoneNumber,
-		"login":          user.Login,
-		"passHash":       user.PassHash,
-	})
+	ctx.Set("isAuthenticated", true)
+	ctx.Redirect(http.StatusSeeOther, "/home/")
 
 }
-
-// func LoginHandler(w http.ResponseWriter, r *http.Request) {
-// 	if r.Method == http.MethodPost {
-// 		login := r.FormValue("Login")
-// 		password := r.FormValue("Password")
-
-// 		user, err := auth.AuthenticateUser(login, password)
-// 		if err != nil {
-// 			http.Error(w, "error auth: "+err.Error(), http.StatusUnauthorized)
-// 			return
-// 		}
-
-// 		fmt.Fprintf(w, "welcome, %s!\n", user.Name)
-// 		fmt.Fprintf(w, "user Surname, %s\n", user.Surname)
-// 		fmt.Fprintf(w, "user Passport, %s\n", user.Passport)
-// 		fmt.Fprintf(w, "user Email, %s\n", user.Email)
-// 		fmt.Fprintf(w, "user DateOfBirthday, %s\n", user.DateOfBirthday)
-// 		fmt.Fprintf(w, "user PhoneNumber, %s\n", user.PhoneNumber)
-// 		fmt.Fprintf(w, "user Login, %s\n", user.Login)
-// 		fmt.Fprintf(w, "user PassHash, %s\n", user.PassHash)
-// 		fmt.Fprintf(w, "ITS WOOOOOORK AAAIR %s", user.Name)
-
-// 	} else {
-// 		tmpl, _ := template.ParseFiles("templates/login.html")
-// 		tmpl.Execute(w, nil)
-// 	}
-// }

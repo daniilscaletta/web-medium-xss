@@ -7,28 +7,24 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// func HandlerRequest() {
-// 	http.HandleFunc("/home/", HomeHandler)
-// 	http.HandleFunc("/register/", RegisterHandler)
-// 	http.HandleFunc("/login/", LoginHandler)
-// 	fmt.Println("Server is listening on http://localhost:1688")
-
-// 	http.ListenAndServe(":1688", nil)
-// }
-
 func SetupRouter() *gin.Engine {
 
 	router := gin.Default()
+	router.Use(middleware.AuthMiddleware())
 
-	router.GET("/home", HomeHandler)
-	router.GET("/login", LoginPage)
-	router.POST("/login", LoginHandler)
-	router.GET("/register", RegisterPage)
-	router.POST("/register", RegisterHandler)
+	router.GET("/home/", HomePage)
+	router.GET("/login/", middleware.RedirectIfAuthenticated(), LoginPage)
+	router.POST("/login/", middleware.RedirectIfAuthenticated(), LoginHandler)
+	router.GET("/register/", middleware.RedirectIfAuthenticated(), RegisterPage)
+	router.POST("/register/", middleware.RedirectIfAuthenticated(), RegisterHandler)
 
-	protected := router.Group("/protected")
-	protected.Use(middleware.AuthMiddleware())
-	protected.GET("/profile", ProfileHandler)
+	protected := router.Group("/")
+	{
+		protected.GET("/profile/", ProfilePage)
+		protected.GET("/logout/", LogoutPage)
+		protected.GET("/record/", RecordPage)
+		protected.POST("/record/", RecordHandler)
+	}
 
 	return router
 }
