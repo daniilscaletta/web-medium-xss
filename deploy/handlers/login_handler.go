@@ -22,11 +22,14 @@ func LoginHandler(ctx *gin.Context) {
 
 	user, err := auth.AuthenticateUser(login, password)
 	if err != nil {
-		ctx.JSON(http.StatusUnavailableForLegalReasons, gin.H{
-			"error": "Invalid login or password",
+		ctx.HTML(http.StatusOK, "login.html", gin.H{
+			"Login":        "Login Page",
+			"ErrorMessage": "Invalid login or password",
 		})
 		return
 	}
+
+	CurrentUser = user
 
 	token, err := utils.GenerateToken(user.Login)
 	if err != nil {

@@ -15,15 +15,15 @@ func SetupRouter() *gin.Engine {
 	router.GET("/home/", HomePage)
 	router.GET("/login/", middleware.RedirectIfAuthenticated(), LoginPage)
 	router.POST("/login/", middleware.RedirectIfAuthenticated(), LoginHandler)
-	router.GET("/register/", middleware.RedirectIfAuthenticated(), RegisterPage)
-	router.POST("/register/", middleware.RedirectIfAuthenticated(), RegisterHandler)
+	router.GET("/signup/", middleware.RedirectIfAuthenticated(), SignUpPage)
+	router.POST("/signup/", middleware.RedirectIfAuthenticated(), SignUpHandler)
 
 	protected := router.Group("/")
 	{
 		protected.GET("/profile/", ProfilePage)
 		protected.GET("/logout/", LogoutPage)
-		protected.GET("/record/", RecordPage)
-		protected.POST("/record/", RecordHandler)
+		protected.GET("/appointment/", AppointmentPage)
+		protected.POST("/appointment/", AppointmentHandler)
 	}
 
 	return router

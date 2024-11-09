@@ -12,11 +12,11 @@ func HomePage(ctx *gin.Context) {
 	isAuthenticated := ctx.GetBool("isAuthenticated")
 	if isAuthenticated {
 		ctx.HTML(http.StatusOK, "home.html", gin.H{
-			"links": []string{"home", "record", "profile", "logout"},
+			"links": []string{"appointment", "profile", "logout"},
 		})
 	} else {
 		ctx.HTML(http.StatusOK, "home.html", gin.H{
-			"links": []string{"home", "login", "register"},
+			"links": []string{"signup", "login"},
 		})
 	}
 }

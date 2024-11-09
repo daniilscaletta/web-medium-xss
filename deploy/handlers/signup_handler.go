@@ -9,13 +9,15 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func RegisterPage(ctx *gin.Context) {
-	ctx.HTML(http.StatusOK, "register.html", gin.H{
-		"Register": "Register Page",
+var CurrentUser *models.User
+
+func SignUpPage(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "signup.html", gin.H{
+		"Sign Up": "Sign Up Page",
 	})
 }
 
-func RegisterHandler(ctx *gin.Context) {
+func SignUpHandler(ctx *gin.Context) {
 
 	user := &models.User{
 		Name:           ctx.PostForm("Name"),
@@ -28,13 +30,14 @@ func RegisterHandler(ctx *gin.Context) {
 		Password:       ctx.PostForm("Passhash"),
 	}
 
-	err := auth.RegisterUser(user)
+	err := auth.SignUpUser(user)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
+	CurrentUser = user
 
 	ctx.Redirect(http.StatusSeeOther, "/login/")
 }

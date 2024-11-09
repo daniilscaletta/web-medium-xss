@@ -8,7 +8,7 @@ import (
 	"fmt"
 )
 
-func RegisterUser(user *models.User) error {
+func SignUpUser(user *models.User) error {
 	db, err := db.OpenDBConnection()
 	if err != nil {
 		return err
