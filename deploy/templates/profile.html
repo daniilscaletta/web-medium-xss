@@ -104,9 +104,9 @@
                   <img src="{{ .AvatarURL }}" class="card-img-top rounded-circle p-3" alt="Avatar">
                   <div class="card-body text-center">
                       <h5 class="card-title">{{ .Name }} {{ .Surname }}</h5>
-                      <p class="card-text"><strong>Login:</strong> {{ .Login }}</p>
-                      <p class="card-text"><strong>Email:</strong> {{ .Email }}</p>
-                      <p class="card-text"><strong>Phone:</strong> {{ .PhoneNumber }}</p>
+                      <p class="card-text" style="font-size: 1.2rem;"><strong>Login:</strong> {{ .Login }}</p>
+                      <p class="card-text" style="font-size: 1.2rem;"><strong>Email:</strong> {{ .Email }}</p>
+                      <p class="card-text" style="font-size: 1.2rem;"><strong>Phone:</strong> {{ .PhoneNumber }}</p>
                   </div>
               </div>
           </div>
@@ -119,8 +119,8 @@
                       <h5 class="mb-0">Profile Details</h5>
                   </div>
                   <div class="card-body">
-                      <p><strong>Date of Birth:</strong> {{ .DateOfBirth }}</p>
-                      <p><strong>Passport Number:</strong> {{ .Passport }}</p>
+                      <p class="mb-1" style="font-size: 1.2rem;"><strong>Date of Birth:</strong> {{ .DateOfBirth }}</p>
+                      <p class="mb-1" style="font-size: 1.2rem;"><strong>Passport Number:</strong> {{ .Passport }}</p>
                   </div>
               </div>
   
@@ -132,9 +132,9 @@
                   <div class="card-body">
                       {{range .Appointments}}
                       <div class="appointment p-2 mb-3" style="border: 1px solid #e0e0e0; border-radius: 5px;">
-                          <p class="mb-1" style="font-size: 0.9rem;"><strong>Date:</strong> {{.Date}}</p>
-                          <p class="mb-1" style="font-size: 0.9rem;"><strong>Doctor:</strong> {{.Doctor}}</p>
-                          <p class="mb-1" style="font-size: 0.9rem;"><strong>Specialty:</strong> {{.Specialty}}</p>
+                          <p class="mb-2" style="font-size: 1.2rem;"><strong>Date:</strong> {{.Date}}</p>
+                          <p class="mb-2" style="font-size: 0.9rem;"><strong>Doctor:</strong> {{.Doctor}}</p>
+                          <p class="mb-2" style="font-size: 0.9rem;"><strong>Complain:</strong> {{.Complain}}</p>
                       </div>
                       {{else}}
                       <p class="text-muted" style="font-size: 0.9rem;">No potential appointments found.</p>

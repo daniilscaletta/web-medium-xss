@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"example/v3/db"
+	"example/v3/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,17 +19,16 @@ func ProfilePage(ctx *gin.Context) {
 			return
 		}
 
-		appointments := []map[string]string{
-			{"Date": "2024-11-15", "Doctor": "Dr. Smith", "Specialty": "Cardiology"},
-			{"Date": "2024-11-20", "Doctor": "Dr. Jones", "Specialty": "Dermatology"},
-			{"Date": "2024-11-20", "Doctor": "Dr. Jones", "Specialty": "Dermatology"},
-			{"Date": "2024-11-20", "Doctor": "Dr. Jones", "Specialty": "Dermatology"},
-			{"Date": "2024-11-20", "Doctor": "Dr. Jones", "Specialty": "Dermatology"},
-			{"Date": "2024-11-20", "Doctor": "Dr. Jones", "Specialty": "Dermatology"},
-			{"Date": "2024-11-20", "Doctor": "Dr. Jones", "Specialty": "Dermatology"},
-			{"Date": "2024-11-20", "Doctor": "Dr. Jones", "Specialty": "Dermatology"},
-			{"Date": "2024-11-20", "Doctor": "Dr. Jones", "Specialty": "Dermatology"},
-			{"Date": "2024-11-20", "Doctor": "Dr. Jones", "Specialty": "DermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatologyDermatology"},
+		db, err := db.OpenDBConnection()
+		if err != nil {
+			ctx.String(http.StatusInternalServerError, "Error opening connection")
+			return
+		}
+
+		var appointments []models.Appointments
+		if err := db.Where("Login = ?", user.Login).Find(&appointments).Error; err != nil {
+			ctx.String(http.StatusInternalServerError, "Error fetching appointments: %v", err)
+			return
 		}
 
 		ctx.HTML(http.StatusOK, "profile.html", gin.H{

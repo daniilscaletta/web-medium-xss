@@ -63,32 +63,49 @@
         <div class="row">
             <div class="col-md-8 mx-auto">
                 <div class="card shadow-lg p-4">
+                    {{ if .ErrorMessage }}
+                        <div class="alert alert-danger text-center" role="alert">
+                        {{ .ErrorMessage }}
+                        </div>
+                    {{ end }}
+                    {{ if .AccessMessage }}
+                    <div class="alert alert-success text-center" role="alert">                    
+                        {{ .AccessMessage }}
+                        </div>
+                    {{ end }}
                     <h3 class="card-title mb-4 text-center">Запись на приём</h3>
-                    <form>
+                    <form action="/appointment/" method="POST">
                         <!-- Выбор даты -->
                         <div class="mb-3">
                             <label for="appointmentDate" class="form-label">Дата приёма</label>
-                            <input type="date" class="form-control form-control-lg" id="appointmentDate" required>
+                            <input type="date" class="form-control form-control-lg" id="appointmentDate" name="date" required>
                         </div>
                         <!-- Выбор времени -->
                         <div class="mb-3">
                             <label for="appointmentTime" class="form-label">Время приёма</label>
-                            <input type="time" class="form-control form-control-lg" id="appointmentTime" required>
+                            <input type="time" class="form-control form-control-lg" id="appointmentTime" name="time" required>
                         </div>
                         <!-- Выбор врача -->
                         <div class="mb-3">
                             <label for="doctorSelect" class="form-label">Врач</label>
-                            <select class="form-select form-select-lg" id="doctorSelect" required>
+                            <select class="form-select form-select-lg" id="doctorSelect" name="doctor" required>
                                 <option value="">Выберите врача</option>
                                 <option value="therapist">Терапевт</option>
                                 <option value="cardiologist">Кардиолог</option>
-                                <option value="dentist">Стоматолог</option>
+                                <option value="stomatolog">Стоматолог</option>
+                                <option value="hirurg">Хирург</option>
+                                <option value="otorinolaringolog">Оториноларинголог</option>
+                                <option value="dermatolog">Дерматолог</option>
+                                <option value="nevrolog">Невролог</option>
+                                <option value="travmatolog">Травматолог</option>
+                                <option value="oftalmolog">Офтальмолог</option>
+                                <option value="pediatr">Педиатр</option>
                             </select>
                         </div>
                         <!-- Комментарий пользователя -->
                         <div class="mb-3">
                             <label for="comment" class="form-label">Ваши жалобы</label>
-                            <textarea class="form-control form-control-lg" id="comment" rows="4" placeholder="Кратко опишите симптомы"></textarea>
+                            <textarea class="form-control form-control-lg" id="comment" name="complain" rows="4" placeholder="Кратко опишите симптомы"></textarea>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg">Отправить заявку</button>
