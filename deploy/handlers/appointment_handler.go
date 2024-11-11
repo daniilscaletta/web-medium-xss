@@ -60,12 +60,11 @@ func AppointmentHandler(ctx *gin.Context) {
 		newAppointment.EncodedURL = encodedURL
 
 		if err := db.Create(&newAppointment).Error; err != nil {
-			ctx.String(http.StatusInternalServerError, fmt.Sprintf("Error for registration: %v", err))
+			ctx.String(http.StatusInternalServerError, fmt.Sprintf("Error for add appointment: %v", err))
 			return
 		}
 
 		ctx.Redirect(http.StatusSeeOther, "/appointment/"+encodedURL)
-
 	} else {
 		ctx.Redirect(http.StatusTemporaryRedirect, "/login")
 	}

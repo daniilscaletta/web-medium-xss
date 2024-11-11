@@ -3,6 +3,7 @@ package handlers
 import (
 	"example/v3/db"
 	"example/v3/models"
+	"html/template"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -28,10 +29,10 @@ func AppointmentURLHandler(ctx *gin.Context) {
 		}
 
 		ctx.HTML(http.StatusOK, "appointmentURL.html", gin.H{
-			"Date":     appointment.Date,
-			"Time":     appointment.Time,
-			"Doctor":   appointment.Doctor,
-			"Complain": appointment.Complain,
+			"Date":     template.HTML(appointment.Date),
+			"Time":     template.HTML(appointment.Time),
+			"Doctor":   template.HTML(appointment.Doctor),
+			"Complain": template.HTML(appointment.Complain),
 		})
 
 	} else {

@@ -51,19 +51,25 @@
                     </div>
 
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <strong>Дата приёма:</strong> {{ .Date }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Время приёма:</strong> {{ .Time }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Врач:</strong> {{ .Doctor }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Жалобы:</strong>
-                            <p>{{ .Complain }}</p>
-                        </li>
+                            <li class="list-group-item">
+                            <h5>Дата приёма:</h5> 
+                                {{ .Date }}
+                            </li>
+                            
+                            <li class="list-group-item">
+                            <h5>Время приёма:</h5> 
+                                {{ .Time }}
+                            </li>
+
+                            <li class="list-group-item">
+                            <h5>Врач:</h5> 
+                                {{ .Doctor }}
+                            </li>
+
+                            <li class="list-group-item">
+                            <h5>Жалобы:</h5>
+                                {{ .Complain }}
+                            </li>
                     </ul>
 
                     <div class="d-flex justify-content-center gap-2 mt-4">
