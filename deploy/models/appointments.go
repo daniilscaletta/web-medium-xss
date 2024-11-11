@@ -11,4 +11,5 @@ type Appointments struct {
 	Time       string `gorm:"column:Time;type:varchar(20);not null"`
 	Doctor     string `gorm:"column:Doctor;type:varchar(20);not null"`
 	Complain   string `gorm:"column:Complain;type:varchar(255);not null"`
+	EncodedURL string `gorm:"column:EncodedURL;type:varchar(255);not null"`
 }

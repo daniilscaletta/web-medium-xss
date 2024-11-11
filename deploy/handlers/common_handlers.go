@@ -24,6 +24,7 @@ func SetupRouter() *gin.Engine {
 		protected.GET("/logout/", LogoutPage)
 		protected.GET("/appointment/", AppointmentPage)
 		protected.POST("/appointment/", AppointmentHandler)
+		protected.GET("/appointment/:encodedURL", AppointmentURLHandler)
 	}
 
 	return router

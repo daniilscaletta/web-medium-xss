@@ -133,8 +133,9 @@
                       {{range .Appointments}}
                       <div class="appointment p-2 mb-3" style="border: 1px solid #e0e0e0; border-radius: 5px;">
                           <p class="mb-2" style="font-size: 1.2rem;"><strong>Date:</strong> {{.Date}}</p>
+                          <p class="mb-2" style="font-size: 0.9rem;"><strong>Time:</strong> {{.Time}}</p>
                           <p class="mb-2" style="font-size: 0.9rem;"><strong>Doctor:</strong> {{.Doctor}}</p>
-                          <p class="mb-2" style="font-size: 0.9rem;"><strong>Complain:</strong> {{.Complain}}</p>
+                          <a href="/appointment/{{.EncodedURL}}" class="stretched-link"></a>
                       </div>
                       {{else}}
                       <p class="text-muted" style="font-size: 0.9rem;">No potential appointments found.</p>

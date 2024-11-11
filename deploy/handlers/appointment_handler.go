@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/base64"
 	"example/v3/db"
 	"example/v3/models"
 	"fmt"
@@ -45,24 +46,25 @@ func AppointmentHandler(ctx *gin.Context) {
 			return
 		}
 
+		user := CurrentUser
+
 		newAppointment := &models.Appointments{
-			Login:    CurrentUser.Login, // HOW ????
+			Login:    user.Login,
 			Date:     date,
 			Time:     time,
 			Doctor:   doctor,
 			Complain: complain,
 		}
 
+		encodedURL := base64.URLEncoding.EncodeToString([]byte(date + time + doctor))
+		newAppointment.EncodedURL = encodedURL
+
 		if err := db.Create(&newAppointment).Error; err != nil {
 			ctx.String(http.StatusInternalServerError, fmt.Sprintf("Error for registration: %v", err))
 			return
 		}
 
-		ctx.HTML(http.StatusOK, "appointment.html", gin.H{
-			"AccessMessage": "You have successfully made an appointment with a doctor",
-		})
-
-		// REDIRECT TO RANDOM URL
+		ctx.Redirect(http.StatusSeeOther, "/appointment/"+encodedURL)
 
 	} else {
 		ctx.Redirect(http.StatusTemporaryRedirect, "/login")
