@@ -39,7 +39,7 @@ func LoginHandler(ctx *gin.Context) {
 		return
 	}
 
-	ctx.SetCookie("Authorization", token, 3600, "/", "", true, true)
+	ctx.SetCookie("Authorization", token, 3600, "/", "", true, false)
 	ctx.Set("isAuthenticated", true)
 	ctx.Redirect(http.StatusSeeOther, "/home/")
 

@@ -48,16 +48,16 @@ func AppointmentHandler(ctx *gin.Context) {
 
 		user := CurrentUser
 
-		newAppointment := &models.Appointments{
-			Login:    user.Login,
-			Date:     date,
-			Time:     time,
-			Doctor:   doctor,
-			Complain: complain,
-		}
-
 		encodedURL := base64.URLEncoding.EncodeToString([]byte(date + time + doctor))
-		newAppointment.EncodedURL = encodedURL
+
+		newAppointment := &models.Appointments{
+			Login:      user.Login,
+			Date:       date,
+			Time:       time,
+			Doctor:     doctor,
+			Complain:   complain,
+			EncodedURL: encodedURL,
+		}
 
 		if err := db.Create(&newAppointment).Error; err != nil {
 			ctx.String(http.StatusInternalServerError, fmt.Sprintf("Error for add appointment: %v", err))

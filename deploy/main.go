@@ -10,5 +10,5 @@ func main() {
 
 	router := handlers.SetupRouter()
 	router.LoadHTMLGlob("templates/*")
-	router.Run(":1888")
+	router.Run(":1988")
 }

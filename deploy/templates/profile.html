@@ -126,35 +126,31 @@
   
               <!-- Potential Appointments -->
               <div class="card">
-                  <div class="card-header">
-                      <h5 class="mb-0">Potential Appointments</h5>
-                  </div>
-                  <div class="card-body">
-                      {{range .Appointments}}
-                      <div class="appointment p-2 mb-3" style="border: 1px solid #e0e0e0; border-radius: 5px;">
-                          <p class="mb-2" style="font-size: 1.2rem;"><strong>Date:</strong> {{.Date}}</p>
-                          <p class="mb-2" style="font-size: 0.9rem;"><strong>Time:</strong> {{.Time}}</p>
-                          <p class="mb-2" style="font-size: 0.9rem;"><strong>Doctor:</strong> {{.Doctor}}</p>
-                          <a href="/appointment/{{.EncodedURL}}" class="stretched-link"></a>
-                      </div>
-                      {{else}}
-                      <p class="text-muted" style="font-size: 0.9rem;">No potential appointments found.</p>
-                      {{end}}
-                  </div>
-              </div>
+                <div class="card-header">
+                    <h5 class="mb-0">Potential Appointments</h5>
+                </div>
+                <div class="card-body">
+                    {{range .Appointments}}
+                    <a href="/appointment/{{.EncodedURL}}" style="text-decoration: none; color: inherit;">
+                        <div class="appointment p-2 mb-3" style="border: 1px solid #e0e0e0; border-radius: 5px;">
+                            <p class="mb-2" style="font-size: 1.2rem;"><strong>Date:</strong> {{.Date}}</p>
+                            <p class="mb-2" style="font-size: 0.9rem;"><strong>Time:</strong> {{.Time}}</p>
+                            <p class="mb-2" style="font-size: 0.9rem;"><strong>Doctor:</strong> {{.Doctor}}</p>
+                        </div>
+                    </a>
+                    {{else}}
+                    <p class="text-muted" style="font-size: 0.9rem;">No potential appointments found.</p>
+                    {{end}}
+                </div>
+            </div>
           </div>
       </div>
   </main>
   
-  
-  
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
 
-    
-    
       <!-- FOOTER -->
       <footer class="container">
         <p class="float-end"><a href="#">Back to top</a></p>
@@ -162,8 +158,6 @@
       </footer>
     </main>
     <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
-        
-    
+
     </body>
 </html>

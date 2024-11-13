@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/base64"
 	"example/v3/db"
 	"example/v3/models"
 	"net/http"
@@ -30,12 +29,6 @@ func ProfilePage(ctx *gin.Context) {
 		if err := db.Where("Login = ?", user.Login).Find(&appointments).Error; err != nil {
 			ctx.String(http.StatusInternalServerError, "Error fetching appointments: %v", err)
 			return
-		}
-
-		//Генерация ссылок для каждого забронированного приёма
-		for i := range appointments {
-			encodedURL := base64.URLEncoding.EncodeToString([]byte(appointments[i].Date + appointments[i].Time + appointments[i].Doctor))
-			appointments[i].EncodedURL = encodedURL
 		}
 
 		ctx.HTML(http.StatusOK, "profile.html", gin.H{
