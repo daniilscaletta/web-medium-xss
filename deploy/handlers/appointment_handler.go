@@ -64,6 +64,7 @@ func AppointmentHandler(ctx *gin.Context) {
 			return
 		}
 
+		ctx.SetCookie("Queue", "we will stand for so long", 3600, "/appointment", "", true, false)
 		ctx.Redirect(http.StatusSeeOther, "/appointment/"+encodedURL)
 	} else {
 		ctx.Redirect(http.StatusTemporaryRedirect, "/login")

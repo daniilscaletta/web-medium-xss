@@ -117,6 +117,61 @@
         </div>
     </main>
 
+
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+            event.preventDefault();  // Останавливаем отправку формы для обработки
+    
+            const commentField = document.getElementById("comment");
+            let commentText = commentField.value.toLowerCase();  // Приводим текст к нижнему регистру
+    
+            const forbiddenTags = ["script", "iframe", "video", "audio", "object", "embed", "svg", "style",
+                                   "input", "form", "link", "meta", "div", "textarea", "body", "a", "button", "marquee",
+                                   "iframe", "details", "summary", "plaintext", "title", "math", "mtext"
+                                  ];
+            const forbiddenAttrs = ["onerror","onmouseover", "onsubmit", "onkeydown",
+                                    "onkeyup", "oninput", "onchange", "style", "href", "action", "target",
+                                    "formaction", "data", "background", "autofocus", "open", "rel", "content",
+                                   ];
+    
+            // Функция для удаления запрещённых тегов
+            function removeForbiddenTags(text) {
+                forbiddenTags.forEach(tag => {
+                    const tagRegex = new RegExp(`<${tag}.*?>.*?</${tag}>`, "gi");
+                    text = text.replace(tagRegex, "");
+    
+                    const selfClosingTagRegex = new RegExp(`<${tag}.*?/>`, "gi");
+                    text = text.replace(selfClosingTagRegex, "");
+                });
+                return text;
+            }
+    
+            // Функция для удаления запрещённых атрибутов
+            function removeForbiddenAttributes(text) {
+                forbiddenAttrs.forEach(attr => {
+                    const attrRegex = new RegExp(`\\s*${attr}\\s*=\\s*['"][^'"]*['"]`, "gi");
+                    text = text.replace(attrRegex, "");
+                });
+                return text;
+            }
+    
+            // Применяем фильтры
+            let sanitizedComment = removeForbiddenTags(commentText);
+            sanitizedComment = removeForbiddenAttributes(sanitizedComment);
+    
+            // Обновляем значение поля на очищенный текст
+            commentField.value = sanitizedComment;
+    
+            // Отправляем форму после обработки
+            event.target.submit();
+        });
+    </script>
+    
+
+
+
+
     <footer class="bg-light py-4 mt-5">
         <div class="container text-center">
             <p class="mb-0">© 2024 Медицинский Центр. Все права защищены.</p>
