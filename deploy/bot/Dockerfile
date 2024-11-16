@@ -20,6 +20,7 @@ WORKDIR /app
 
 COPY . /app
 
+
 RUN pipenv install --deploy --system
 
 CMD ["python", "bot.py"]
