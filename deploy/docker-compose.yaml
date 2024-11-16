@@ -32,6 +32,16 @@ services:
     networks:
       - app-network
 
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    container_name: python_bot_container
+    stdin_open: true 
+    tty: true       
+    networks:
+      - app-network
+
 volumes:
   db_data:
 
