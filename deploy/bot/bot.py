@@ -21,6 +21,10 @@ def visit(url):
 if __name__ == "__main__":
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--remote-debugging-port=9222')
+    options.binary_location = "/usr/bin/chromium"
     
     driver = webdriver.Chrome(options=options)
     url = input("input url> ")
