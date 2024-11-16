@@ -5,8 +5,8 @@ services:
     environment:
           MYSQL_ROOT_PASSWORD: qwerty
           MYSQL_DATABASE: vkakids
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     volumes:
       - db_data:/var/lib/sql
     command:
